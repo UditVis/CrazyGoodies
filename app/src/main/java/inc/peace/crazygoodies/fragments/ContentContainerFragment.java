@@ -192,8 +192,7 @@ public class ContentContainerFragment extends Fragment implements AudioFilesCall
         try{
             Log.d("cv","createBaseAudioList");
             audioFolderRecycler = (RecyclerView) getActivity().findViewById(R.id.audio_folder_recycler);
-            //audioFolderAdapter = new AudioFolderRecyclerAdapter(audioFolders);
-            audioFolderAdapter = new AudioFolderRecyclerAdapter(getFolderJsonList(audioFolders));
+            audioFolderAdapter = new AudioFolderRecyclerAdapter(audioFolders);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             audioFolderRecycler.setLayoutManager(mLayoutManager);
             audioFolderRecycler.setItemAnimator(new DefaultItemAnimator());
@@ -250,18 +249,6 @@ public class ContentContainerFragment extends Fragment implements AudioFilesCall
                    // Toast.makeText(getContext(),msg,Toast.LENGTH_SHORT).show();
                 }                                                             //Upto here
                 //JSONObject objForNextFragment = new JSONObject();
-                try{
-                    Log.d("tttt","whattup?");
-                    audioFolderAdapter = new AudioFolderRecyclerAdapter(getFileJsonList(filesInFolderList,folderName));
-                    Log.d("tttt",getFileJsonList(filesInFolderList,folderName).toString());
-                    audioFolderRecycler.setAdapter(audioFolderAdapter);
-                    audioFolderAdapter.notifyDataSetChanged();
-                    audioFolderAdapter.getItemCount();
-                    Log.d("tttt","data  set changed : " +  audioFolderAdapter.getItemCount());
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-
 
                 //Toast.makeText(getContext(),"pos: " + position + " : " + folderName,Toast.LENGTH_LONG).show();
             }
