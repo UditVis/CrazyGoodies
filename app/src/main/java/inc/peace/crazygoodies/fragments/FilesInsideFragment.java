@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -28,7 +29,8 @@ public class FilesInsideFragment extends Fragment {
         //Required Empty Constructor
     }
 
-    public static FilesInsideFragment newInstance(JSONObject fromPrevFragment){
+    public Fragment newInstance(JSONObject fromPrevFragment){
+        initFragment(fromPrevFragment);
         FilesInsideFragment fragment = new FilesInsideFragment();
         return fragment;
     }
@@ -62,5 +64,17 @@ public class FilesInsideFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    private boolean initFragment(JSONObject fromPrevFragment){
+        boolean fragmentInitialized = false;
+        try{
+            this.audioFiles = (ArrayList<AudioFilesModel>) fromPrevFragment.get("audio_files");
+            this.parentFolder = (AudioFoldersModel) fromPrevFragment.get("parent_folder");
+            fragmentInitialized = true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return fragmentInitialized;
     }
 }

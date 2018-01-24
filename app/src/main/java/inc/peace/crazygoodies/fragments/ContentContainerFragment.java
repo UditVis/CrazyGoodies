@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -240,17 +242,24 @@ public class ContentContainerFragment extends Fragment implements AudioFilesCall
         audioFolderRecycler.addOnItemTouchListener(new AudioRecyclerClickListenerImpl(getContext(), audioFolderRecycler, new AudioRecyclerClickListener() {
             @Override
             public void onClick(View view, int position) {
-                String folderName = audioFolders.get(position).getFolderName();
-                ArrayList<AudioFilesModel> filesInFolderList = getFilesInFolderList(folderName);
-                Log.d("cv","files in folder " + folderName + " are :");
-                for(AudioFilesModel afm : filesInFolderList){   //This is just for test
-                    String msg = afm.getAudioFileName()+afm.getAudioFileExt();
-                    Log.d("cv",msg);
-                   // Toast.makeText(getContext(),msg,Toast.LENGTH_SHORT).show();
-                }                                                             //Upto here
-                //JSONObject objForNextFragment = new JSONObject();
-
-                //Toast.makeText(getContext(),"pos: " + position + " : " + folderName,Toast.LENGTH_LONG).show();
+                try{
+                    String folderName = audioFolders.get(position).getFolderName();
+                    ArrayList<AudioFilesModel> filesInFolderList = getFilesInFolderList(folderName);
+                    Log.d("cv","files in folder " + folderName + " are :");
+                    for(AudioFilesModel afm : filesInFolderList){   //This is just for test
+                        String msg = afm.getAudioFileName()+afm.getAudioFileExt();
+                        Log.d("cv",msg);
+                        // Toast.makeText(getContext(),msg,Toast.LENGTH_SHORT).show();
+                    }                                                             //Upto here
+                    JSONObject objForNextFragment = new JSONObject();
+                    objForNextFragment.put("audio_files",filesInFolderList).put("parent_folder",audioFolders.get(position));
+                    android.app.Fragment filesInsideFragment = new FilesInsideFragment().newInstance(objForNextFragment);
+                    FragmentManager fragmentManager = getChildFragmentManager();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
 
             @Override
